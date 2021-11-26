@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClienteDao {
-    private Connection connection;
+    private static Connection connection;
 
     public ClienteDao() {
         connection = ConectorBD.getConnection();
@@ -31,12 +31,10 @@ public class ClienteDao {
             System.out.println("Error al crear el cliente: " + e.getMessage());
         }
     }
-
-    public void  updateCliente(Cliente cliente) {
+    public static void updateCliente(Cliente cliente) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    "UPDATE clientes SET nif=?, nombre=?, ciudad=?, direccion=?, telefono=?, WHERE nif=?"
-            );
+                    "UPDATE clientes SET nif=?,nombre=?,ciudad=?,direccion=?,telefono=? WHERE nif=?" );
             preparedStatement.setString(1, cliente.getNif());
             preparedStatement.setString(2, cliente.getNombre());
             preparedStatement.setString(3, cliente.getCiudad());
@@ -52,7 +50,7 @@ public class ClienteDao {
         }
     }
 
-    public void  deleteCliente(String nif ) {
+    public static void  deleteCliente(String nif) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "DELETE FROM clientes WHERE nif=?"
